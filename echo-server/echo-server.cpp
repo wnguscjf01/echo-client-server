@@ -84,16 +84,16 @@ void recvThread(int sd) {
 		printf("%s", buf);
 		fflush(stdout);
 		if(param.broadcast){
-				std::unique_lock<std::mutex> lock(clientsMutex);
-				for(auto client : clients){
-					res = ::send(client, buf, res, 0);
-					if (res == 0 || res == -1) {
-						fprintf(stderr, "send return %zd", res);
-						myerror(" ");
-						break;
-					}
+			std::unique_lock<std::mutex> lock(clientsMutex);
+			for(auto client : clients){
+				res = ::send(client, buf, res, 0);
+				if (res == 0 || res == -1) {
+					fprintf(stderr, "send return %zd", res);
+					myerror(" ");
+					break;
 				}
 			}
+		}
 		else if (param.echo) {
 			res = ::send(sd, buf, res, 0);
 			if (res == 0 || res == -1) {
