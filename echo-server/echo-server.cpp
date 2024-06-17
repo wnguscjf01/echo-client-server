@@ -83,8 +83,7 @@ void recvThread(int sd) {
 		buf[res] = '\0';
 		printf("%s", buf);
 		fflush(stdout);
-		if (param.echo) {
-			if(param.broadcast){
+		if(param.broadcast){
 				std::unique_lock<std::mutex> lock(clientsMutex);
 				for(auto client : clients){
 					res = ::send(client, buf, res, 0);
@@ -95,7 +94,7 @@ void recvThread(int sd) {
 					}
 				}
 			}
-			//if not broadcast
+		else if (param.echo) {
 			res = ::send(sd, buf, res, 0);
 			if (res == 0 || res == -1) {
 				fprintf(stderr, "send return %zd", res);
